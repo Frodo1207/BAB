@@ -200,8 +200,10 @@
                 <img id="avatarImage" alt="头像"> <!-- 默认头像 -->
             </div>
             <input type="file" id="avatarUpload" onchange="uploadAvatar()" accept="image/*">
-            <!-- 名字输入框 -->
-            <input type="text" id="nameInput" placeholder="请输入你的名字">
+            <!-- 用户名输入框 -->
+            <input type="text" id="nameInput" placeholder="请输入你的用户名">
+            <!-- ID输入框 -->
+            <input type="text" id="idInput" placeholder="请输入你的ID">
             <button onclick="addNameToImage()">生成图片</button>
             <canvas id="imageCanvas" width="700" height="400"></canvas>
             <!-- 下载按钮 -->
@@ -222,16 +224,17 @@
             addNameToImage();  // 绘制默认图片
         };
 
-        // 生成带名字和随机数（包括字母和数字）的图片
+        // 生成带名字和 ID 的图片
         function addNameToImage() {
             const name = document.getElementById("nameInput").value.trim();
+            const id = document.getElementById("idInput").value.trim();
             
             // 默认名字为空时，填充空字符串
-            const displayName = name || "你的名字"; 
+            const displayName = name || "你的用户名"; 
+            const displayId = id || "ID未知";  // 如果没有输入ID，使用“ID未知”
 
-            // 生成五位随机字符串（包含字母和数字）
-            const randomString = generateRandomString();
-            const displayText = `${displayName} #${randomString}`; // 在名字后加上随机字符串并用#标注
+            // 拼接显示的文本：用户名和ID
+            const displayText = `${displayName} #${displayId}`;
 
             // 获取canvas和上下文
             const canvas = document.getElementById("imageCanvas");
@@ -257,13 +260,13 @@
                 const x = 20;  // 设置文字距左边20px
                 const y = canvas.height / 2;
 
-                // 绘制名字和随机数
+                // 绘制用户名和ID
                 ctx.fillText(displayText, x, y);
 
                 // 绘制头像（如果有上传）
                 const avatarImage = document.getElementById("avatarImage");
                 const avatarSize = 120;  // 设置头像大小
-                const avatarX = canvas.width - avatarSize -115;  // 头像位置：右下角
+                const avatarX = canvas.width - avatarSize - 115;  // 头像位置：右下角
                 const avatarY = canvas.height / 2 - avatarSize / 2;  // 头像垂直居中
 
                 // 在Canvas上绘制圆形头像
@@ -277,17 +280,6 @@
                 // 显示下载按钮
                 document.getElementById("downloadBtn").style.display = "block";
             };
-        }
-
-        // 生成一个五位的随机字符串（包括字母和数字）
-        function generateRandomString() {
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'; // 字母和数字
-            let result = '';
-            for (let i = 0; i < 5; i++) {
-                const randomIndex = Math.floor(Math.random() * characters.length);
-                result += characters[randomIndex];
-            }
-            return result;
         }
 
         // 上传头像
@@ -309,7 +301,7 @@
             const imageUrl = canvas.toDataURL("image/png");  // 获取canvas的图片数据
             const link = document.createElement('a');
             link.href = imageUrl;
-            link.download = 'image_with_name.png';  // 下载图片的名称
+            link.download = 'image_with_name_and_id.png';  // 下载图片的名称
             link.click();  // 触发下载
         }
     </script>
