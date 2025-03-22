@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>币安的灵魂</title>
+    <style>
+        /* 基本页面布局 */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #1a1a1a; /* 黑色背景 */
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #FFD700; /* 黄色标题 */
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+        }
+
+        /* 主容器 */
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            background: #333;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 1000px;
+            box-sizing: border-box;
+        }
+
+        /* 左侧内容 */
+        .left-section {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* 右侧内容 */
+        .right-section {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .avatar-frame {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid #FFD700; /* 黄色边框 */
+            margin-top: 20px;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+        }
+
+        .avatar-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        input[type="file"] {
+            margin-top: 10px;
+        }
+
+        input {
+            padding: 12px 18px;
+            font-size: 16px;
+            width: 100%;
+            margin-bottom: 20px;
+            border: 2px solid #FFD700; /* 黄色边框 */
+            border-radius: 10px;
+            background-color: #1a1a1a; /* 黑色背景 */
+            color: #fff;
+            box-sizing: border-box;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #FFCC00;
+            background-color: #333;
+        }
+
+        button {
+            background-color: #FFD700; /* 黄色按钮 */
+            color: #1a1a1a;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        button:hover {
+            background-color: #FFCC00; /* 悬浮效果 */
+        }
+
+        .download-btn {
+            background-color: #28a745; /* 绿色下载按钮 */
+            color: #fff;
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .download-btn:hover {
+            background-color: #218838; /* 悬浮效果 */
+        }
+
+        canvas {
+            margin-top: 30px;
+            border-radius: 10px;
+            border: 3px solid #FFD700; /* 黄色边框 */
+            background: #333;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+            width: 100%;
+        }
+
+        /* 媒体查询，用于适应更小屏幕 */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 28px;
+            }
+
+            .container {
+                padding: 15px;
+                flex-direction: column;
+            }
+
+            .left-section, .right-section {
+                width: 100%;
+                padding: 0;
+            }
+
+            input {
+                font-size: 14px;
+                padding: 12px 15px;
+            }
+
+            button {
+                font-size: 16px;
+                padding: 12px 15px;
+            }
+
+            .download-btn {
+                font-size: 16px;
+                padding: 12px 15px;
+            }
+
+            .avatar-frame {
+                width: 120px;
+                height: 120px;
+            }
+        }
+
+        /* 更小屏幕上的优化 */
+        @media (max-width: 480px) {
+            .avatar-frame {
+                width: 100px;
+                height: 100px;
+            }
+
+            canvas {
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>币安灵魂绑定</h1>
+        <div class="left-section">
+            <!-- 头像上传区域 -->
+            <div class="avatar-frame" id="avatarFrame">
+                <img id="avatarImage" alt="头像"> <!-- 默认头像 -->
+            </div>
+            <input type="file" id="avatarUpload" onchange="uploadAvatar()" accept="image/*">
+            <!-- 名字输入框 -->
+            <input type="text" id="nameInput" placeholder="请输入你的名字">
+            <button onclick="addNameToImage()">生成图片</button>
+            <canvas id="imageCanvas" width="700" height="400"></canvas>
+            <!-- 下载按钮 -->
+            <button class="download-btn" id="downloadBtn" onclick="downloadImage()" style="display: none;">下载图片</button>
+        </div>
+        
+        <div class="right-section">
+            <!-- 右侧区域保持空白或者显示其他内容 -->
+        </div>
+    </div>
+
+    <script>
+        // 默认显示的图片路径
+        const defaultImageSrc = 'image.png'; // 这里换成你自己的图片路径
+
+        // 在页面加载时就绘制默认图片
+        window.onload = function() {
+            addNameToImage();  // 绘制默认图片
+        };
+
+        // 生成带名字和随机数（包括字母和数字）的图片
+        function addNameToImage() {
+            const name = document.getElementById("nameInput").value.trim();
+            
+            // 默认名字为空时，填充空字符串
+            const displayName = name || "你的名字"; 
+
+            // 生成五位随机字符串（包含字母和数字）
+            const randomString = generateRandomString();
+            const displayText = `${displayName} #${randomString}`; // 在名字后加上随机字符串并用#标注
+
+            // 获取canvas和上下文
+            const canvas = document.getElementById("imageCanvas");
+            const ctx = canvas.getContext("2d");
+
+            // 加载图片
+            const img = new Image();
+            img.src = defaultImageSrc;  // 这里换成你自己的图片路径
+            img.onload = function() {
+                // 清空画布
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // 绘制图片
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                // 设置字体样式，字体稍微小一点
+                ctx.font = "30px Arial";  // 字体大小调整为30px
+                ctx.fillStyle = "white";  // 文字颜色
+                ctx.textAlign = "left";  // 文字左对齐
+                ctx.textBaseline = "middle";  // 文字垂直居中
+
+                // 计算文本位置
+                const x = 20;  // 设置文字距左边20px
+                const y = canvas.height / 2;
+
+                // 绘制名字和随机数
+                ctx.fillText(displayText, x, y);
+
+                // 绘制头像（如果有上传）
+                const avatarImage = document.getElementById("avatarImage");
+                const avatarSize = 120;  // 设置头像大小
+                const avatarX = canvas.width - avatarSize -115;  // 头像位置：右下角
+                const avatarY = canvas.height / 2 - avatarSize / 2;  // 头像垂直居中
+
+                // 在Canvas上绘制圆形头像
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(avatarX + avatarSize / 2, avatarY + avatarSize / 2, avatarSize / 2, 0, Math.PI * 2);
+                ctx.clip();
+                ctx.drawImage(avatarImage, avatarX, avatarY, avatarSize, avatarSize);
+                ctx.restore();
+
+                // 显示下载按钮
+                document.getElementById("downloadBtn").style.display = "block";
+            };
+        }
+
+        // 生成一个五位的随机字符串（包括字母和数字）
+        function generateRandomString() {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'; // 字母和数字
+            let result = '';
+            for (let i = 0; i < 5; i++) {
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                result += characters[randomIndex];
+            }
+            return result;
+        }
+
+        // 上传头像
+        function uploadAvatar() {
+            const file = document.getElementById("avatarUpload").files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const avatarImage = document.getElementById("avatarImage");
+                    avatarImage.src = event.target.result;  // 设置头像为上传的图片
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // 下载生成的图片
+        function downloadImage() {
+            const canvas = document.getElementById("imageCanvas");
+            const imageUrl = canvas.toDataURL("image/png");  // 获取canvas的图片数据
+            const link = document.createElement('a');
+            link.href = imageUrl;
+            link.download = 'image_with_name.png';  // 下载图片的名称
+            link.click();  // 触发下载
+        }
+    </script>
+</body>
+</html>
